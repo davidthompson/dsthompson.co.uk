@@ -46,17 +46,86 @@ jobs:
           cli_config_credentials_token: ${{ secrets.HCP_TERRAFORM_TOKEN }}
 
       - name: Check formatting
+        id: format
         run: terraform fmt -check -recursive
 
       - name: Initialize Terraform
+        id: init
         run: terraform init -input=false
 
       - name: Validate configuration
+        id: validate
         run: terraform validate -no-color
 
       - name: Create Terraform plan
+        id: plan
         run: terraform plan -input=false -no-color -out=tfplan
 
+      - name: Analyze Terraform plan
+        id: plan_summary
+        run: |
+          read -r create_count update_count replace_count delete_count <<< "$(
+            terraform show -json tfplan | jq -r '
+              def actions: .change.actions;
+              [
+                ([.resource_changes[]? | select(actions == ["create"])] | length),
+                ([.resource_changes[]? | select(actions == ["update"])] | length),
+                ([.resource_changes[]? | select((actions | index("create")) and (actions | index("delete")))] | length),
+                ([.resource_changes[]? | select(actions == ["delete"])] | length)
+              ] | @tsv
+            '
+          )"
+
+          {
+            echo "create_count=$create_count"
+            echo "update_count=$update_count"
+            echo "replace_count=$replace_count"
+            echo "delete_count=$delete_count"
+          } >> "$GITHUB_OUTPUT"
+
       - name: Apply Terraform plan
+        id: apply
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: terraform apply -input=false -auto-approve tfplan
+
+      - name: Publish deployment summary
+        if: always()
+        env:
+          CREATE_COUNT: ${{ steps.plan_summary.outputs.create_count }}
+          UPDATE_COUNT: ${{ steps.plan_summary.outputs.update_count }}
+          REPLACE_COUNT: ${{ steps.plan_summary.outputs.replace_count }}
+          DELETE_COUNT: ${{ steps.plan_summary.outputs.delete_count }}
+          FORMAT_OUTCOME: ${{ steps.format.outcome }}
+          INIT_OUTCOME: ${{ steps.init.outcome }}
+          VALIDATE_OUTCOME: ${{ steps.validate.outcome }}
+          PLAN_OUTCOME: ${{ steps.plan.outcome }}
+          APPLY_OUTCOME: ${{ steps.apply.outcome }}
+        run: |
+          if [[ "$GITHUB_EVENT_NAME" == "pull_request" ]]; then
+            applied="No — pull request plan only"
+          elif [[ "$APPLY_OUTCOME" == "success" ]]; then
+            applied="Yes"
+          elif [[ "$APPLY_OUTCOME" == "skipped" ]]; then
+            applied="No — applies run only from main"
+          else
+            applied="No — apply $APPLY_OUTCOME"
+          fi
+
+          {
+            echo "## Cloudflare DNS deployment"
+            echo
+            echo "| Item | Value |"
+            echo "|---|---|"
+            echo "| Workspace | [\`davidsthompson / dsthompson / dns-production\`](https://app.terraform.io/app/davidsthompson/workspaces/dns-production) |"
+            echo "| Event | \`$GITHUB_EVENT_NAME\` |"
+            echo "| Commit | \`${GITHUB_SHA:0:7}\` |"
+            echo "| Formatting | \`$FORMAT_OUTCOME\` |"
+            echo "| Initialization | \`$INIT_OUTCOME\` |"
+            echo "| Validation | \`$VALIDATE_OUTCOME\` |"
+            echo "| Plan | \`$PLAN_OUTCOME\` |"
+            echo "| Create | \`${CREATE_COUNT:-n/a}\` |"
+            echo "| Update | \`${UPDATE_COUNT:-n/a}\` |"
+            echo "| Replace | \`${REPLACE_COUNT:-n/a}\` |"
+            echo "| Delete | \`${DELETE_COUNT:-n/a}\` |"
+            echo "| Applied | $applied |"
+          } >> "$GITHUB_STEP_SUMMARY"
