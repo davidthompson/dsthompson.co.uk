@@ -10,30 +10,6 @@ locals {
       proxied = true
     }
 
-    caa_issuewild_sectigo = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issuewild"
-        value = "sectigo.com"
-      }
-    }
-
-    caa_issue_sectigo = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issue"
-        value = "sectigo.com"
-      }
-    }
-
     caa_issue_letsencrypt = {
       name    = "dsthompson.co.uk"
       type    = "CAA"
@@ -46,54 +22,6 @@ locals {
       }
     }
 
-    caa_issue_digicert = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issue"
-        value = "digicert.com"
-      }
-    }
-
-    caa_issue_comodoca = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issue"
-        value = "comodoca.com"
-      }
-    }
-
-    caa_issuewild_comodoca = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issuewild"
-        value = "comodoca.com"
-      }
-    }
-
-    caa_issuewild_digicert = {
-      name    = "dsthompson.co.uk"
-      type    = "CAA"
-      ttl     = 1
-      proxied = false
-      data = {
-        flags = 0
-        tag   = "issuewild"
-        value = "digicert.com"
-      }
-    }
-
     caa_issuewild_letsencrypt = {
       name    = "dsthompson.co.uk"
       type    = "CAA"
@@ -102,7 +30,7 @@ locals {
       data = {
         flags = 0
         tag   = "issuewild"
-        value = "letsencrypt.org"
+        value = "letsencrypt.org; validationmethods=dns-01"
       }
     }
 
@@ -216,4 +144,3 @@ locals {
     }
   }
 }
-
