@@ -1,4 +1,4 @@
-name: Terraform Cloudflare DNS
+name: Deploy DNS
 
 on:
   pull_request:
@@ -31,7 +31,7 @@ env:
 
 jobs:
   terraform:
-    name: Plan and apply
+    name: Plan / apply DNS
     runs-on: ubuntu-latest
 
     steps:
