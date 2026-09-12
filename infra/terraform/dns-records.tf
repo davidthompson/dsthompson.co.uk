@@ -9,7 +9,7 @@ locals {
       content = "83.217.163.146"
       proxied = true
     }
-    
+
     caa_issuewild_sectigo = {
       name    = "dsthompson.co.uk"
       type    = "CAA"
