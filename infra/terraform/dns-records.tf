@@ -9,15 +9,7 @@ locals {
       content = "83.217.163.146"
       proxied = true
     }
-
-    vpn_a = {
-      name    = "vpn.dsthompson.co.uk"
-      type    = "A"
-      ttl     = 1
-      content = "83.217.163.146"
-      proxied = false
-    }
-
+    
     caa_issuewild_sectigo = {
       name    = "dsthompson.co.uk"
       type    = "CAA"
