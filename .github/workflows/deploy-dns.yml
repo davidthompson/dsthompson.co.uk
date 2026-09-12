@@ -4,13 +4,11 @@ on:
   pull_request:
     paths:
       - "infra/terraform/**"
-      - ".github/workflows/terraform-dns.yml"
   push:
     branches:
       - main
     paths:
       - "infra/terraform/**"
-      - ".github/workflows/terraform-dns.yml"
   workflow_dispatch:
 
 permissions:
@@ -62,4 +60,3 @@ jobs:
       - name: Apply Terraform plan
         if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
         run: terraform apply -input=false -auto-approve tfplan
-
