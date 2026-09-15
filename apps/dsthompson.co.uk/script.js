@@ -17,6 +17,6 @@ traceButton.addEventListener('click',()=>{const visible=route.classList.toggle('
 replyButton.addEventListener('click',()=>{
   const mailbox=[100,97,118,105,100].map(code=>String.fromCharCode(code)).join('');
   const host=[100,115,116,104,111,109,112,115,111,110,46,99,111,46,117,107].map(code=>String.fromCharCode(code)).join('');
-  window.location.assign(`mailto:${mailbox}@${host}`);
+  replyButton.href=`mailto:${mailbox}@${host}`;
 });
 document.addEventListener('keydown',event=>{if(event.key==='Escape'&&page.classList.contains('is-open'))closeLetter()});
