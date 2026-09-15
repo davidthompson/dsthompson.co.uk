@@ -1,14 +1,69 @@
-<html>
+<!doctype html>
+<html lang="en-GB">
 <head>
-	</script>
-	<title>dsthompson.co.uk</title>
-	<meta http-equiv="Content-Security-Policy" content="default-src 'self' ; script-src cdn.report-uri.com https://www.google-analytics.com/analytics.js; style-src 'self' fonts.googleapis.com; font-src fonts.gstatic.com; img-src 'self' https://www.google-analytics.com; connect-src dsthompson.report-uri.com; upgrade-insecure-requests;">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<script type="text/json" id="csp-report-uri">
-	{"keys" : ["blockedURI", "columnNumber", "disposition", "documentURI", "effectiveDirective", "lineNumber", "originalPolicy", "referrer", "sample", "sourceFile", "statusCode", "violatedDirective"], "reportUri": "https://dsthompson.report-uri.com/r/d/csp/enforce"}
-	</script>
-	<script src="https://cdn.report-uri.com/libs/report-uri-js/1.0.1/report-uri-js.min.js" integrity="sha256-Cng8gUe98XCqh5hc8nAM3y5I1iQHBjzOl8X3/iAd4jE=" crossorigin="anonymous"></script>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="A short note from David Thompson, senior software developer.">
+  <meta name="theme-color" content="#07111f">
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; img-src 'self'; style-src 'self'; script-src 'self'; base-uri 'none'; form-action 'none'; frame-ancestors 'none'; upgrade-insecure-requests">
+  <title>A note from David Thompson</title>
+  <link rel="stylesheet" href="styles.css">
+  <script src="script.js" defer></script>
 </head>
 <body>
+  <a class="skip-link" href="#letter">Skip to the message</a>
+  <main class="stage">
+    <div class="ambient ambient-one" aria-hidden="true"></div>
+    <div class="ambient ambient-two" aria-hidden="true"></div>
+    <header class="masthead">
+      <a class="wordmark" href="/" aria-label="David Thompson home">DT<span>.</span></a>
+      <p class="delivery-status"><span aria-hidden="true"></span> Message delivered securely</p>
+    </header>
+    <section class="mail-scene" aria-labelledby="page-title">
+      <div class="intro">
+        <p class="eyebrow">Personal correspondence</p>
+        <h1 id="page-title">There’s a message<br>waiting for you.</h1>
+        <p class="lede">A small corner of the internet, delivered the old-fashioned way.</p>
+      </div>
+      <div class="envelope-wrap">
+        <button class="envelope-button" id="open-envelope" type="button" aria-controls="letter" aria-expanded="false">
+          <img src="envelope.png" width="1536" height="1024" alt="A deep blue envelope sealed with red wax">
+          <span class="recipient">To: Curious visitor</span>
+          <span class="postmark" aria-label="Postmarked today"><b>TODAY</b><small id="postmark-date"></small></span>
+          <span class="open-label">Open message <span aria-hidden="true">↗</span></span>
+        </button>
+        <article class="letter" id="letter" tabindex="-1" aria-hidden="true">
+          <button class="close-letter" id="close-letter" type="button" aria-label="Close message">×</button>
+          <p class="letter-date" id="letter-date"></p>
+          <h2>Hi, I’m David.</h2>
+          <p class="letter-copy">I’m a Senior Software Developer interested in architecture, distributed systems, and building things properly.</p>
+          <p class="letter-copy">This domain mostly carries email. Since you stopped by, here’s where you can find the rest of my work.</p>
+          <nav class="links" aria-label="Find David online">
+            <a href="https://github.com/davidthompson" rel="me noreferrer">GitHub <span aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/david-thompson-14426a19/" rel="me noreferrer">LinkedIn <span aria-hidden="true">↗</span></a>
+          </nav>
+          <div class="letter-actions">
+            <button class="trace-button" id="trace-button" type="button" aria-controls="mail-route" aria-expanded="false">Trace this message</button>
+            <a class="reply-button" href="https://www.linkedin.com/in/david-thompson-14426a19/" rel="me noreferrer">Send a reply</a>
+          </div>
+          <section class="mail-route" id="mail-route" aria-hidden="true" aria-labelledby="route-title">
+            <div class="route-heading">
+              <div><p class="route-kicker">Message route</p><h3 id="route-title">How good email earns trust</h3></div>
+              <p class="route-status">All checks passed</p>
+            </div>
+            <ol class="route-steps">
+              <li><span>01</span><div><strong>MX lookup</strong><small>Find the receiving mail server</small></div></li>
+              <li><span>02</span><div><strong>SPF</strong><small>Check the sender is permitted</small></div></li>
+              <li><span>03</span><div><strong>DKIM</strong><small>Verify the signed message</small></div></li>
+              <li><span>04</span><div><strong>DMARC</strong><small>Apply the domain’s policy</small></div></li>
+              <li><span>05</span><div><strong>Inbox</strong><small>Deliver with confidence</small></div></li>
+            </ol>
+          </section>
+          <footer class="signature"><span>David</span><small>Senior Software Developer · United Kingdom</small></footer>
+        </article>
+      </div>
+    </section>
+    <footer class="site-footer"><p>No cookies. No tracking. Just a letter.</p><p>© <span id="year"></span> David Thompson</p></footer>
+  </main>
 </body>
 </html>
